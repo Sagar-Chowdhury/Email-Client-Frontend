@@ -70,12 +70,14 @@ export class LoginComponent implements OnInit,OnDestroy {
        
        if(statusCode == 200){
            //localStorage.setItem('token', token);
+
+            this.toastr.success("Login Success"); 
             this.navigateToCreateMail() 
             }
             else{
 
               console.log("Error in Login/Login Failed API Related");
-              
+              this.toastr.error("Wrong Password/Email") 
             }
            
              
@@ -90,7 +92,7 @@ export class LoginComponent implements OnInit,OnDestroy {
 
       console.log("Invalid Login/Login Credentials")
       
-      //this.toastr.error("Login Failed")
+      this.toastr.error("Login Failed Due to Invalid Credentials Formatting ")
      
     }
 

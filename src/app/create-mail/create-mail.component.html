@@ -46,7 +46,8 @@
 
         <div class="form-group">
           <label for="attachments">Attachments:</label>
-          <input type="file" id="attachments" formControlName="attachments" class="form-control-file">
+          <input #fileInput type="file" id="attachments" (change)="selectAttachments($event)" class="form-control-file" multiple>
+        
         </div>
 
         <button type="submit" class="btn btn-primary">Send</button>

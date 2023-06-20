@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -7,14 +7,27 @@ import { HttpClient } from '@angular/common/http';
 export class MailingService {
 
 
-  private mailapiUrl = 'http://sample-url';
+  
 
   constructor(private http: HttpClient) {}
    
-   sendMail(email: string, subject: string, body: string){
+   sendMail(data: any) {
 
-    const data = { email,subject,body }
-    return this.http.post<any>('${this.mailapiUrl}/mail',data)
+
+   
+    const authToken = localStorage.getItem('token')
+    const headers = new HttpHeaders().set('Authorization', authToken!);
+   
+    return this.http.post<any>('https:smtpbackend.iitmandi.co.in/email/send_email',data,{headers})
+
+   }
+
+   getAllMails(){
+    
+    const authToken = localStorage.getItem('token')
+    const headers = new HttpHeaders().set('Authorization', authToken!);
+    return this.http.get<any>('https://smtpbackend.iitmandi.co.in/email/get_email',{headers})
+
 
    }
 

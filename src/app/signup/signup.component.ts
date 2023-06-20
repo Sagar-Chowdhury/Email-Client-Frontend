@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription, catchError, of } from 'rxjs';
-
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-signup',
@@ -17,7 +17,7 @@ export class SignupComponent implements OnDestroy {
   signupForm!: FormGroup;
   signupsubscription!:Subscription 
 
-  constructor( private route:Router , private auth:AuthenticationService , private formBuilder:FormBuilder  ){
+  constructor( private toastr: ToastrService,private route:Router , private auth:AuthenticationService , private formBuilder:FormBuilder  ){
 
     this.signupForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.nullValidator] ],
@@ -59,11 +59,12 @@ export class SignupComponent implements OnDestroy {
       const email = responseObject.status.data.email;
 
         if(statusCode === 200){
+         this.toastr.show("Signup Success Use your credentials to login")   
         this.navigateToLogin()
          }
          else{
             console.log("Signup Error API related error");
-            
+            this.toastr.error("Invalid Password/Email ,give proper data") 
 
          }
 
@@ -76,7 +77,7 @@ export class SignupComponent implements OnDestroy {
     else
     {
       console.log("Signup Credentials Invalid!");
-      
+       this.toastr.error("Signup Failed Due to Invalid Credentials Formatting ") 
 
     }
      
