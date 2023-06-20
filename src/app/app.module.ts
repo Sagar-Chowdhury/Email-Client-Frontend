@@ -9,10 +9,12 @@ import { FormsModule } from '@angular/forms';
 import { SignupComponent } from './signup/signup.component';
 import { ErrorComponent } from './error/error.component';
 import { AuthenticationService } from './services/authentication.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CreateMailComponent } from './create-mail/create-mail.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { InboxComponent } from './inbox/inbox.component';
+import { HeaderInterceptor } from './header.interceptor';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,7 @@ import { ToastrModule } from 'ngx-toastr';
     SignupComponent,
     ErrorComponent,
     CreateMailComponent,
+    InboxComponent,
     
   ],
   imports: [
@@ -30,10 +33,20 @@ import { ToastrModule } from 'ngx-toastr';
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
+    
     ToastrModule.forRoot(),
     BrowserAnimationsModule
   ],
-  providers: [AuthenticationService],
+  providers: [AuthenticationService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HeaderInterceptor,
+      multi: true
+
+    }
+  
+  
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { LoginDataSchema } from '../login/LoginData';
 import { LoginComponent } from '../login/login.component';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription, catchError, of } from 'rxjs';
 
 
 @Component({
@@ -11,10 +12,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss']
 })
-export class SignupComponent {
+export class SignupComponent implements OnDestroy {
 
   signupForm!: FormGroup;
-   
+  signupsubscription!:Subscription 
 
   constructor( private route:Router , private auth:AuthenticationService , private formBuilder:FormBuilder  ){
 
@@ -25,7 +26,7 @@ export class SignupComponent {
     })
 
   }
-
+ 
   signup(){
 
     
@@ -39,10 +40,25 @@ export class SignupComponent {
        const password = this.signupForm.get('password')?.value
 
 
-      this.auth.signup(name, email, password).subscribe(response =>{
+    this.signupsubscription =  this.auth.signup(name, email, password).pipe(
+          catchError((error) => { console.log(error.message);
+          
+            return of([]);
+          
+          })
+
+      ).subscribe(response =>{
      
-      
-        if(response.success){
+        const responseJson = JSON.stringify(response)
+        console.log("Signup Response:-> " + responseJson );
+        const responseObject = JSON.parse(responseJson);
+        
+      const statusCode = responseObject.status.code;
+      const message = responseObject.status.message;
+      const userId = responseObject.status.data.id;
+      const email = responseObject.status.data.email;
+
+        if(statusCode === 200){
         this.navigateToLogin()
          }
          else{
@@ -51,7 +67,10 @@ export class SignupComponent {
 
          }
 
-        })
+        }
+        
+        
+      )
 
     }
     else
@@ -67,5 +86,17 @@ export class SignupComponent {
   navigateToLogin(){
     this.route.navigate(['/login']);
   }
+
+  ngOnDestroy(): void {
+    
+    
+    if(this.signupsubscription)
+    {
+      console.log("Signup Subscription Unsubscribed");  
+    this.signupsubscription.unsubscribe();
+    }
+    
+  }
+
 
 }

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable,tap,catchError, of } from 'rxjs';
-import { LoginDataSchema } from '../login/LoginData';
+import { HttpClient, HttpHeaders, HttpRequest, HttpResponse } from '@angular/common/http';
+
 
 @Injectable({
   providedIn: 'root'
@@ -9,30 +8,58 @@ import { LoginDataSchema } from '../login/LoginData';
 export class AuthenticationService {
  
 
-  private apiUrl = 'http://sample-url';
+   options = {
+    headers: Headers,
+    observe: "response" as 'body', // to display the full response & as 'body' for type cast
+    responseType: "json"
+    };
 
   constructor(private http: HttpClient) {}
 
 
   login(email:string,password:string) {
       
+   //my data fromat to be sent to the server
+    const data = {
+      user: {
+        email: email,
+        password: password
+      }
+    };
+    console.log("Login data Sent -> " + JSON.stringify(data))
+    
+   
 
-    const data = {email,password}
 
-    return this.http.post<any>('${this.apiUrl}/login',data)
+    return this.http.post<any>('https://smtpbackend.iitmandi.co.in/users/sign_in',data,{observe: 'response',withCredentials: true})
 }
 
   signup(username:string,email:string,password:string) {
 
 
-    const data = {username,email,password}
-    return this.http.post<any>('${this.apiUrl}/signup',data)
+    const data = {
+      user: {
+        email: email,
+        password: password
+      }
+    };
+    console.log( "Sign Up data Sent -> " + JSON.stringify(data))
+    
+  
    
-  }
+    return this.http.post<any>('https://smtpbackend.iitmandi.co.in/users',data)
+}
 
-  logout(): void {
+  
+
+  logout() {
    
-    localStorage.removeItem('token');
+    const authToken = localStorage.getItem('token')
+   
+     
+  
+     const headers = new HttpHeaders().set('Authorization', authToken!);
+     return this.http.delete<any>('https://smtpbackend.iitmandi.co.in/users/sign_out',{headers})
 
   }
   
