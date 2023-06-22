@@ -1,11 +1,21 @@
 <div class="d-flex justify-content-center">
-  <div class="w-50 p-3 text-center">
-    <h1>Inbox</h1>
+  <div class="w-50 p-3 text-center mailbox-container">
+    <h1>Mailbox</h1>
     <ul class="list-group">
       <li class="list-group-item" *ngFor="let email of emails">
-        <h5>{{ email.from }}</h5>
-        <p>{{ email.subject }}</p>
+        <h5 >From: {{ email.from }}</h5>
+        <p >Subject: {{ email.subject }}</p>
       </li>
     </ul>
   </div>
 </div>
+
+<div class="row justify-content-center mt-5">
+  <div class=" text-center">
+   
+    <img  height="300px" width="300px" src="assets/mailbox.svg" >
+    
+  </div>
+</div>
+
+

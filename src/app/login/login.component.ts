@@ -92,7 +92,7 @@ export class LoginComponent implements OnInit,OnDestroy {
 
       console.log("Invalid Login/Login Credentials")
       
-      this.toastr.error("Login Failed Due to Invalid Credentials Formatting ")
+      this.toastr.error("Please Enter Proper Email with Password(minimum 6 characters)")
      
     }
 

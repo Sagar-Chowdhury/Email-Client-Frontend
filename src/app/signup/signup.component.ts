@@ -77,7 +77,7 @@ export class SignupComponent implements OnDestroy {
     else
     {
       console.log("Signup Credentials Invalid!");
-       this.toastr.error("Signup Failed Due to Invalid Credentials Formatting ") 
+      this.toastr.error("Please Enter Proper Email with Password(minimum 6 characters)") 
 
     }
      

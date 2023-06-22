@@ -18,7 +18,7 @@ export class CreateMailComponent implements OnDestroy,OnInit {
 
 
   composeForm!:FormGroup
-  composeSectionVisible:boolean = true
+  composeSectionVisible:boolean = false
   logout$  = this.authService.logout()
   logoutSubscription!:Subscription
   sendMailSubscription!:Subscription

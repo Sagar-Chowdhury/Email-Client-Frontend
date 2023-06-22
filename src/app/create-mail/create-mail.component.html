@@ -1,10 +1,15 @@
 
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sofia&display=swap" rel="stylesheet">
+
 <div class="position-fixed top-0 end-0 mt-3 mr-3">
   <button type="button" class="btn btn-outline-secondary" (click)="logout()">Sign Out</button>
 </div>
 
 <div class="position-fixed top-0 start-0 mt-3 ml-3">
-  <button type="button" class="btn btn-danger" (click)="toggleComposeVisibility()">Compose Mail</button>
+  <button type="button" class="btn btn-outline-info" (click)="toggleComposeVisibility()">Compose Mail</button>
 </div>
 
 
@@ -12,8 +17,8 @@
 
 
 
-<div *ngIf="composeSectionVisible" >
-<div class="d-flex align-items-center justify-content-center" style="height: 100vh;">
+<div *ngIf="composeSectionVisible" class="mb-0" >
+<div class="d-flex align-items-center justify-content-center" style="height: 100vh; ">
   <div class="card">
     <div class="card-body">
       <h1 class="card-title">Compose Mail</h1>
@@ -50,9 +55,12 @@
         
         </div>
 
-        <button type="submit" class="btn btn-primary">Send</button>
+        <button type="submit" class="btn btn-outline-info">Send</button>
       </form>
     </div>
   </div>
 </div>
 </div>
+
+
+
