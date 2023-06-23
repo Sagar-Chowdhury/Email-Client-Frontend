@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse } from '@angular/common/http';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
@@ -42,7 +42,10 @@ export class HeaderInterceptor implements HttpInterceptor {
       catchError((error) =>{
         
         console.log(error);
+        
         this.toastr.error("Invalid Credentials Email/Password")
+        
+        this.toastr.error(new HttpErrorResponse(error).error.status.message); 
         return of(error);
 
       })

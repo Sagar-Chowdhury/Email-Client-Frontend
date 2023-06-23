@@ -90,6 +90,8 @@ export class CreateMailComponent implements OnDestroy,OnInit {
       
       const emailData = {
         to: this.composeForm.value.to,
+        cc:this.composeForm.value.cc,
+        bcc:this.composeForm.value.bcc,
         subject: this.composeForm.value.subject,
         body: this.composeForm.value.body,
         attachments: [] as Array<Attachment>
